@@ -1,0 +1,92 @@
+---
+const pasos = [
+  { titulo: 'Elegís los cortes', texto: 'Sumalos al ticket de arriba o escribinos directo. Si no sabés cuánto llevar, te asesoramos.', img: '/img/found/chorizos-parrilleros-argentinos-frescos-argentina.jpg', alt: 'Bandeja de chorizos parrilleros frescos', pos: 'center', gap: 5 },
+  { titulo: 'Nos llega por WhatsApp', texto: `Te confirmamos el pedido y el precio del día al 11 4989-4783.`, img: '/img/original/flyer-take-away.jpeg', alt: 'Flyer de Carnicería Claudio: take away, rápido, cómodo y con la mejor calidad', pos: 'center', gap: 2 },
+  { titulo: 'Lo cortamos y pesamos', texto: 'Cada corte se prepara en el momento y se pesa exacto, como dice el cartel.', img: '/img/atencion.jpg', alt: 'Claudio cortando carne detrás del mostrador mientras una clienta espera', pos: 'center top', gap: 8 },
+  { titulo: 'Pasás a retirar', texto: 'Vieytes 1063, esquina Alfaro. Tu pedido te espera listo en el mostrador.', img: '/img/original/banner.jpeg', alt: 'Frente de Carnicería Claudio de día, con el cartel azul y la vereda', pos: '82% center', gap: 3 },
+];
+---
+
+<section class="como" id="como-pedir" aria-labelledby="como-title">
+  <div class="head" data-reveal>
+    <h2 id="como-title">Pedí y pasá a retirar</h2>
+    <div class="arrows">
+      <button type="button" data-dir="-1" aria-label="Paso anterior">←</button>
+      <button type="button" data-dir="1" aria-label="Paso siguiente">→</button>
+    </div>
+  </div>
+  <div class="progress" aria-hidden="true"><span></span></div>
+
+  <ol class="row">
+    {pasos.map((p, i) => (
+      <li data-reveal style={`--i: ${i}; --gap: ${p.gap}`}>
+        <h3>{p.titulo}</h3>
+        <p>{p.texto}</p>
+        <figure>
+          <img src={p.img} alt={p.alt} width="400" height="500" loading="lazy" style={`object-position: ${p.pos}`} />
+        </figure>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.como').forEach((root) => {
+    const row = root.querySelector<HTMLElement>('.row')!;
+    const bar = root.querySelector<HTMLElement>('.progress span')!;
+    const update = () => {
+      const max = row.scrollWidth - row.clientWidth;
+      const p = max > 0 ? row.scrollLeft / max : 1;
+      bar.style.transform = `scaleX(${0.12 + p * 0.88})`;
+    };
+    row.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+    root.querySelectorAll<HTMLButtonElement>('[data-dir]').forEach((b) =>
+      b.addEventListener('click', () => {
+        const step = row.querySelector('li')!.getBoundingClientRect().width + 32;
+        row.scrollBy({ left: Number(b.dataset.dir) * step, behavior: 'smooth' });
+      }),
+    );
+  });
+</script>
+
+<style>
+  .como { background: var(--paper); padding: var(--section) 0; overflow: hidden; }
+  .head { display: flex; justify-content: space-between; align-items: end; gap: 1rem; padding-inline: var(--margin); }
+  h2 { font-size: var(--step-head); }
+  .arrows { display: none; gap: 6px; }
+  .arrows button {
+    width: 3.25rem; height: 3.25rem; background: var(--ink); color: var(--paper); font-size: var(--step-lead); font-weight: 600;
+    transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease;
+  }
+  .arrows button:active { transform: scale(0.92); }
+  @media (hover: hover) and (pointer: fine) { .arrows button:hover { background: var(--red); } }
+
+  .progress { margin: 1.5rem var(--margin) 0; height: 6px; background: var(--paper-2); }
+  .progress span { display: block; height: 100%; background: var(--blue); transform-origin: left; transform: scaleX(0.12); transition: transform 200ms linear; }
+
+  .row {
+    display: flex; gap: 1rem;
+    overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+    padding: 2.5rem var(--margin) 0.5rem;
+    scroll-padding-inline: var(--margin);
+  }
+  .row::-webkit-scrollbar { display: none; }
+  .row li { flex: 0 0 72vw; scroll-snap-align: start; display: flex; flex-direction: column; }
+  h3 { font-size: var(--step-lead); letter-spacing: -0.03em; line-height: 1.1; }
+  .row p { margin-top: 0.75rem; color: var(--muted); }
+  figure { margin-top: calc(1.5rem + var(--gap) * 0.35rem); aspect-ratio: 4 / 5; overflow: hidden; background: var(--paper-2); }
+  figure img { width: 100%; height: 100%; object-fit: cover; transition: transform 900ms var(--ease-out); }
+  @media (hover: hover) and (pointer: fine) { .row li:hover img { transform: scale(1.04); } }
+
+  @media (min-width: 48rem) {
+    .arrows { display: flex; }
+    .row { gap: 2rem; }
+    .row li { flex-basis: 300px; }
+    figure { margin-top: calc(2rem + var(--gap) * 0.9rem); }
+  }
+  @media (min-width: 80rem) {
+    .row li { flex: 1 1 0; }
+  }
+</style>

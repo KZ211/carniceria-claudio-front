@@ -1,0 +1,81 @@
+---
+import { site, waLink } from '../data/site';
+import credits from '../data/credits.json';
+
+const year = new Date().getFullYear();
+const scallops = (n: number) => {
+  const w = 100 / n;
+  let d = `M0 20`;
+  for (let i = 0; i < n; i++) d += ` A${w / 2} 20 0 0 1 ${(i + 1) * w} 20`;
+  return `${d} V21 H0 Z`;
+};
+---
+
+<footer class="foot">
+  <div class="back">
+    <svg class="edge edge--wide" viewBox="0 0 100 21" preserveAspectRatio="none" aria-hidden="true"><path d={scallops(12)} /></svg>
+    <svg class="edge edge--narrow" viewBox="0 0 100 21" preserveAspectRatio="none" aria-hidden="true"><path d={scallops(6)} /></svg>
+
+    <div class="panel">
+      <div class="msg">
+        <h2>¡Te esperamos!</h2>
+        <p>
+          Somos la carnicería de la esquina de Vieytes y Alfaro. Si tenés un asado, un cumpleaños o la comida de todos los días, escribinos y lo dejamos listo.
+        </p>
+      </div>
+
+      <div class="dir">
+        <img class="stamp" src="/img/logo.png" width="383" height="383" alt="" loading="lazy" />
+        <ul>
+          <li><a class="link" href={waLink('¡Hola Claudio!')} target="_blank" rel="noopener">WhatsApp {site.phoneLabel}</a></li>
+          <li><a class="link" href={site.phoneHref}>Llamar al local</a></li>
+          <li><a class="link" href={site.mapsHref} target="_blank" rel="noopener">{site.address}, {site.corner}</a></li>
+          <li>{site.city}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="credits">
+      <p>
+        Fotos de referencia (no son del local):
+        {credits.map((c, i) => (
+          <>
+            <a href={c.page} target="_blank" rel="noopener">"{c.title}"</a> de {c.creator}, <a href={c.licenseUrl} target="_blank" rel="noopener">{c.license}</a>{i < credits.length - 1 ? '; ' : '.'}
+          </>
+        ))}
+      </p>
+      <p class="imprint">© {year} {site.name} · {site.slogan}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .foot { background: var(--blue); padding: var(--section) var(--margin) var(--margin); }
+  .back { max-width: 72rem; margin-inline: auto; color: var(--ink); }
+  .edge { width: 100%; height: 22px; fill: var(--paper); margin-bottom: -1px; }
+  .edge--wide { display: none; }
+  .panel {
+    background: var(--paper);
+    display: grid;
+    gap: 2.5rem;
+    padding: 2rem 1.25rem 2.5rem;
+  }
+  h2 { font-size: var(--step-head); }
+  .msg p { margin-top: 1.25rem; max-width: 40ch; }
+  .dir { position: relative; }
+  .stamp { width: 64px; background: var(--paper); padding: 6px; margin-bottom: 1.25rem; transform: rotate(-4deg); transition: transform var(--t-hover) var(--ease-out); }
+  @media (hover: hover) and (pointer: fine) { .stamp:hover { transform: rotate(4deg) scale(1.06); } }
+  .dir ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; font-size: var(--step-body); }
+  .credits { background: var(--paper-2); padding: 1.5rem 1.25rem; font-size: var(--step-small); color: var(--muted); }
+  .credits a { color: inherit; }
+  .imprint { margin: 1.25rem auto 0; text-align: center; color: var(--ink); }
+
+  @media (min-width: 48rem) {
+    .edge--wide { display: block; }
+    .edge--narrow { display: none; }
+    .panel { grid-template-columns: 1fr 1fr; padding: 3rem; min-height: 26rem; }
+    .stamp { position: absolute; top: 0; right: 0; width: 88px; margin: 0; }
+    .dir ul { padding-top: 7rem; }
+    .credits { padding: 1.5rem 3rem; }
+  }
+</style>

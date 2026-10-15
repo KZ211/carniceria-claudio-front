@@ -1,0 +1,28 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Asado from '../components/Asado.astro';
+import Pedido from '../components/Pedido.tsx';
+import ComoPedir from '../components/ComoPedir.astro';
+import Local from '../components/Local.astro';
+import Visita from '../components/Visita.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout>
+  <Hero />
+  <main>
+    <Asado />
+    <section class="cortes" id="cortes" aria-labelledby="cortes-title">
+      <Pedido client:load />
+    </section>
+    <ComoPedir />
+    <Local />
+    <Visita />
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .cortes { background: var(--blue); padding: var(--section) var(--margin); }
+</style>

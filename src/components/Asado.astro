@@ -1,0 +1,100 @@
+---
+import { waLink } from '../data/site';
+
+const tabs = [
+  { id: 'parrilla', label: 'Parrilla', img: '/img/found/asado-argentino-a-la-parrilla-con-chorizos.jpg', alt: 'Asado a la parrilla con chorizos, morcillas y tiras de asado sobre las brasas', title: 'Tu próximo asado', text: 'Asado de tira, vacío, matambre y entraña cortados en el momento. Chorizo y morcilla caseros para arrancar mientras se hace la carne.' },
+  { id: 'embutidos', label: 'Embutidos', img: '/img/found/chorizos-parrilleros-argentinos-frescos-argentina.jpg', alt: 'Bandeja de chorizos parrilleros frescos', title: 'Chorizo casero', text: 'Chorizo, morcilla y salchicha parrillera que preparamos acá. El chorizo casero está en el cartel de la fachada desde siempre.' },
+  { id: 'cerdo', label: 'Cerdo', img: '/img/found/asado-argentino-a-la-estaca-12487.jpg', alt: 'Lechón asado a la estaca sobre el fuego', title: 'Cerdo para el fuego', text: 'Bondiola, pechito, matambrito y carré. Si lo querés entero para la estaca, avisanos con tiempo y te lo encargamos.' },
+];
+---
+
+<section class="asado" aria-labelledby="asado-title">
+  <figure class="square" data-reveal>
+    {tabs.map((t, i) => (
+      <img
+        src={t.img}
+        alt={t.alt}
+        width="1400"
+        height="1050"
+        loading="lazy"
+        data-panel={t.id}
+        hidden={i !== 0}
+      />
+    ))}
+  </figure>
+
+  <div class="side">
+    <div class="tabs" role="tablist" aria-label="Para el fuego" data-reveal>
+      {tabs.map((t, i) => (
+        <button role="tab" type="button" aria-selected={i === 0 ? 'true' : 'false'} data-tab={t.id}>{t.label}</button>
+      ))}
+    </div>
+
+    <div class="copy" data-reveal style="--i: 1">
+      {tabs.map((t, i) => (
+        <div data-panel={t.id} hidden={i !== 0}>
+          <h2 id={i === 0 ? 'asado-title' : undefined}>{t.title}</h2>
+          <p>{t.text}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="cells" data-reveal style="--i: 2">
+      <a class="btn btn--ink" href="#cortes">Ver los cortes</a>
+      <a class="btn btn--paper" href={waLink('¡Hola Claudio! ¿Qué me recomendás para un asado de…?')} target="_blank" rel="noopener">Pedir consejo</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.asado').forEach((root) => {
+    const tabs = root.querySelectorAll<HTMLButtonElement>('[data-tab]');
+    tabs.forEach((tab) =>
+      tab.addEventListener('click', () => {
+        const id = tab.dataset.tab;
+        tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+        root.querySelectorAll<HTMLElement>('[data-panel]').forEach((p) => {
+          p.hidden = p.dataset.panel !== id;
+        });
+      }),
+    );
+  });
+</script>
+
+<style>
+  .asado {
+    background: var(--paper);
+    display: grid;
+    gap: 2rem;
+    padding: var(--section) var(--margin);
+  }
+  .square { aspect-ratio: 1; overflow: hidden; background: var(--paper-2); }
+  .square img { width: 100%; height: 100%; object-fit: cover; }
+  @media (prefers-reduced-motion: no-preference) {
+    .square img:not([hidden]) { animation: swap 900ms var(--ease-out); }
+  }
+  @keyframes swap { from { opacity: 0; transform: scale(1.06); } to { opacity: 1; transform: none; } }
+
+  .side { display: flex; flex-direction: column; gap: 2rem; }
+  .tabs { display: flex; gap: 1.5rem; font-size: var(--step-body); font-weight: 600; }
+  .tabs button { padding: 0.5rem 0; color: var(--muted); transition: color var(--t-hover) ease, transform var(--t-press) var(--ease-out); }
+  .tabs button[aria-selected='true'] { color: var(--red); }
+  .tabs button:active { transform: scale(0.96); }
+  @media (hover: hover) and (pointer: fine) { .tabs button:hover { color: var(--ink); } }
+
+  h2 { font-size: var(--step-head); }
+  .copy p { margin-top: 1.5rem; max-width: 34ch; font-size: var(--step-lead); line-height: 1.35; }
+
+  .cells { display: grid; gap: 0.5rem; }
+  .cells .btn { min-height: 3.75rem; }
+
+  @media (min-width: 48rem) {
+    .cells { grid-template-columns: 1fr 1fr; }
+    .cells .btn { min-height: 4.5rem; }
+  }
+  @media (min-width: 64rem) {
+    .asado { grid-template-columns: 1fr 1fr; gap: 0; padding-inline: 0; padding-block: 0; min-height: 88svh; align-items: center; }
+    .square { margin: 2.5rem; }
+    .side { justify-content: space-between; align-self: stretch; padding: clamp(3rem, 6vw, 6rem) var(--margin) clamp(3rem, 6vw, 6rem) 2.5rem; }
+  }
+</style>

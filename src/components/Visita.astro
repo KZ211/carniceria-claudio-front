@@ -1,0 +1,61 @@
+---
+import { site, waLink } from '../data/site';
+---
+
+<section class="visita" id="visita" aria-labelledby="visita-title">
+  <div class="foto">
+    <img src="/img/found/est-pte-derqui-andenes.jpg" width="1400" height="1050" loading="lazy" alt="Andenes de la estación Presidente Derqui, a pocas cuadras de la carnicería" />
+  </div>
+
+  <div class="card" data-reveal>
+    <h2 id="visita-title">Pasá por el local</h2>
+    <p class="dir">
+      <a class="link" href={site.mapsHref} target="_blank" rel="noopener">{site.address}, {site.corner}</a><br />
+      {site.city}
+    </p>
+    <dl class="horas">
+      {site.hours.map((h) => (
+        <div>
+          <dt>{h.days}</dt>
+          <dd>{h.time}</dd>
+        </div>
+      ))}
+    </dl>
+    <p class="tel">
+      Teléfono y WhatsApp <a class="link nums" href={site.phoneHref}>{site.phoneLabel}</a>
+    </p>
+    <a class="btn" href={waLink('¡Hola Claudio! ¿Están abiertos ahora?')} target="_blank" rel="noopener">Escribinos por WhatsApp</a>
+  </div>
+</section>
+
+<style>
+  .visita { position: relative; background: var(--blue); }
+  .foto { height: 70svh; overflow: hidden; }
+  .foto img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.85); }
+  @media (prefers-reduced-motion: no-preference) {
+    .foto img { animation: drift 24s ease-in-out infinite alternate; }
+  }
+  @keyframes drift { from { transform: scale(1.04); } to { transform: scale(1.14) translateX(-2%); } }
+
+  .card {
+    position: relative;
+    background: var(--paper);
+    margin: -5rem var(--margin) 0;
+    padding: 2rem 1.5rem 0;
+    display: grid;
+    gap: 1.25rem;
+  }
+  h2 { font-size: var(--step-head); }
+  .dir { font-size: var(--step-body); }
+  .horas div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.35rem 0; }
+  .horas dt { color: var(--muted); }
+  .horas dd { font-weight: 600; }
+  .card .btn { margin: 0.5rem -1.5rem 0; min-height: 3.5rem; }
+
+  @media (min-width: 64rem) {
+    .visita { min-height: 100svh; }
+    .foto { position: absolute; inset: 0; height: auto; }
+    .card { position: absolute; top: 60px; right: 60px; width: 26rem; margin: 0; padding: 2rem 2rem 0; }
+    .card .btn { margin-inline: -2rem; }
+  }
+</style>
