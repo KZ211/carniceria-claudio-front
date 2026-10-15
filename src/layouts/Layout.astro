@@ -12,10 +12,15 @@ const {
   description = 'Carne de vaca, ternera, cerdo, pollo, embutidos caseros y achuras en Vieytes 1063, Presidente Derqui. Armá tu pedido, mandalo por WhatsApp y pasá a retirar.',
 } = Astro.props;
 
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/img/logo.png', Astro.site);
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'ButcherShop',
   name: site.name,
+  url: Astro.site?.href,
+  image: ogImage.href,
   slogan: site.slogan,
   telephone: '+54 11 4989-4783',
   address: {
@@ -36,9 +41,14 @@ const jsonLd = {
     <meta name="theme-color" content="#1a3cae" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="/img/logo.png" />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content="es_AR" />
     <link rel="icon" type="image/png" href="/img/logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
