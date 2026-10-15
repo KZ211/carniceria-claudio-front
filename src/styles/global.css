@@ -1,0 +1,85 @@
+/* Carnicería Claudio: el azul de la fachada, el papel del ticket, el rojo del logo. */
+:root {
+  --blue: #1a3cae;
+  --blue-deep: #12297a;
+  --paper: #f4f5f4;
+  --paper-2: #e6e8e7;
+  --ink: #141414;
+  --muted: #4a4a4a;
+  --red: #d7141c;
+  --red-deep: #a80f15;
+  --celeste: #8cbbe6;
+  --on-blue: #ffffff;
+
+  --font: 'Schibsted Grotesk', system-ui, sans-serif;
+
+  --step-small: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.25rem, 1.1rem + 0.7vw, 1.625rem);
+  --step-head: clamp(2rem, 1.3rem + 3.2vw, 4rem);
+  --step-display: clamp(3.25rem, 1rem + 9.5vw, 10rem);
+
+  --margin: clamp(1rem, 2.4vw, 2rem);
+  --gutter: clamp(1rem, 2vw, 2rem);
+  --section: clamp(5rem, 12vw, 12rem);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --t-press: 140ms;
+  --t-hover: 180ms;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--blue);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: var(--step-body);
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+h1, h2, h3, p, figure, ul, ol, dl, dd { margin: 0; }
+ul[class], ol[class] { padding: 0; list-style: none; }
+img, svg { display: block; max-width: 100%; }
+img { height: auto; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+a { color: inherit; }
+h1, h2, h3 { font-weight: 800; letter-spacing: -0.05em; line-height: 0.9; text-wrap: balance; }
+p { max-width: 62ch; text-wrap: pretty; }
+::selection { background: var(--red); color: #fff; }
+:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+:target { scroll-margin-top: 1rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* Botón único de la página: rectángulo plano, esquinas rectas. */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.6em;
+  min-height: 3.5rem; padding: 0 1.5rem;
+  background: var(--red); color: #fff;
+  font-weight: 600; text-decoration: none; white-space: nowrap;
+  transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease;
+}
+.btn:active { transform: scale(0.97); }
+.btn--ink { background: var(--ink); }
+.btn--paper { background: var(--paper-2); color: var(--ink); }
+.link { font-weight: 600; text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 0.08em; }
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover { background: var(--red-deep); }
+  .btn--ink:hover { background: #333; }
+  .btn--paper:hover { background: #dcdcd3; }
+  .link:hover { color: var(--red); }
+}
+
+/* Entradas: el contenido siempre visible sin JavaScript. */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 700ms var(--ease-out), transform 900ms var(--ease-out);
+    transition-delay: calc(var(--i, 0) * 80ms);
+  }
+  .js [data-reveal].is-in { opacity: 1; transform: none; }
+}

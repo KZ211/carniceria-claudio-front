@@ -1,0 +1,56 @@
+---
+import '../styles/global.css';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = `${site.name} · Carnicería en Presidente Derqui`,
+  description = 'Carne de vaca, ternera, cerdo, pollo, embutidos caseros y achuras en Vieytes 1063, Presidente Derqui. Armá tu pedido, mandalo por WhatsApp y pasá a retirar.',
+} = Astro.props;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ButcherShop',
+  name: site.name,
+  slogan: site.slogan,
+  telephone: '+54 11 4989-4783',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: `${site.address}, ${site.corner}`,
+    addressLocality: 'Presidente Derqui',
+    addressRegion: 'Buenos Aires',
+    addressCountry: 'AR',
+  },
+};
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1a3cae" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="/img/logo.png" />
+    <meta property="og:locale" content="es_AR" />
+    <link rel="icon" type="image/png" href="/img/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;800&display=swap" rel="stylesheet" />
+    <script is:inline>document.documentElement.classList.add('js')</script>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <slot />
+    <script>
+      import '../scripts/reveal';
+    </script>
+  </body>
+</html>

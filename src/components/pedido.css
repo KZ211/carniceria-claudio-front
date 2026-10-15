@@ -1,0 +1,109 @@
+.pedido {
+  display: grid;
+  gap: 5rem;
+  align-items: start;
+}
+
+/* La palabra ocupa la columna de borde a borde. */
+.pedido__lista { container-type: inline-size; }
+.pedido__palabra {
+  color: var(--paper);
+  font-size: 33cqw;
+  line-height: 0.8;
+  letter-spacing: -0.06em;
+  margin-left: -0.04em;
+}
+.pedido__intro {
+  color: var(--on-blue);
+  margin-top: 1.5rem;
+  max-width: 44ch;
+}
+
+.pedido__barras { display: grid; gap: 6px; margin-top: 2rem; }
+.pedido__barras details { background: var(--blue-deep); color: var(--on-blue); }
+.pedido__barras summary {
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: 3.5rem; padding: 0 1.125rem;
+  font-weight: 600; cursor: pointer; list-style: none;
+  transition: background-color var(--t-hover) ease;
+}
+.pedido__barras summary::-webkit-details-marker { display: none; }
+@media (hover: hover) and (pointer: fine) {
+  .pedido__barras summary:hover { background: #0d1f5e; }
+}
+.pedido__mas { position: relative; width: 14px; height: 14px; }
+.pedido__mas::before, .pedido__mas::after {
+  content: ''; position: absolute; left: 0; top: 6px; width: 14px; height: 2px; background: currentColor;
+  transition: transform var(--t-hover) var(--ease-out);
+}
+.pedido__mas::after { transform: rotate(90deg); }
+details[open] .pedido__mas::after { transform: rotate(0deg); }
+
+.pedido__barras ul { list-style: none; margin: 0; padding: 0.25rem 1.125rem 1.25rem; display: grid; gap: 0.25rem; }
+.pedido__barras li { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 2.75rem; }
+
+.pedido__ctrl { display: inline-flex; align-items: center; gap: 0.5rem; }
+.pedido__ctrl output { min-width: 4.6em; text-align: right; font-weight: 600; }
+.pedido__ctrl button, .pedido__personas button {
+  width: 2.75rem; height: 2.75rem;
+  display: inline-grid; place-items: center;
+  font-size: var(--step-lead); font-weight: 600; line-height: 1;
+  background: var(--paper); color: var(--ink);
+  transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease;
+}
+.pedido__ctrl button:active, .pedido__personas button:active { transform: scale(0.9); }
+@media (hover: hover) and (pointer: fine) {
+  .pedido__ctrl button:hover { background: var(--celeste); }
+  .pedido__personas button:hover { background: var(--paper-2); }
+}
+
+/* El ticket de la balanza. */
+.pedido__ticket {
+  background: var(--paper);
+  color: var(--ink);
+  padding: 2rem 1.25rem 2.25rem;
+  display: grid;
+  gap: 1.25rem;
+}
+.pedido__ticket h3 { font-size: var(--step-head); }
+
+.pedido__asado { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0.75rem 1rem; background: var(--paper-2); padding: 1rem; }
+.pedido__asado p { font-weight: 600; }
+.pedido__asado .btn { grid-column: 1 / -1; min-height: 3rem; }
+.pedido__personas { display: inline-flex; align-items: center; gap: 0.5rem; }
+.pedido__personas output { min-width: 2ch; text-align: center; font-weight: 800; font-size: var(--step-lead); }
+.pedido__personas button { background: var(--paper); }
+
+.pedido__vacio { color: var(--muted); }
+.pedido__lineas { list-style: none; margin: 0; padding: 0; display: grid; }
+.pedido__lineas li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.45rem 0; }
+.pedido__lineas li span:last-child { font-weight: 600; white-space: nowrap; }
+.pedido__lineas li.pedido__total { margin-top: 0.75rem; padding: 0.75rem 1rem; font-weight: 800; font-size: var(--step-lead); background: var(--paper-2); }
+
+.pedido__campo { display: grid; gap: 0.35rem; font-weight: 600; }
+.pedido__campo input, .pedido__campo select {
+  width: 100%; min-height: 3rem; padding: 0.6rem 0.85rem;
+  background: var(--paper-2); border: 0; border-radius: 0;
+  font: inherit; font-weight: 400; font-size: var(--step-body); color: var(--ink);
+}
+.pedido__enviar { width: 100%; min-height: 4rem; margin-top: 0.5rem; }
+.pedido__nota { font-size: var(--step-small); color: var(--muted); }
+.pedido__limpiar { justify-self: start; color: var(--muted); }
+
+/* En el teléfono, una barra fija recuerda lo que hay en el ticket. */
+.pedido__barra {
+  position: fixed; left: 0.75rem; right: 0.75rem; bottom: 0.75rem; z-index: 20;
+  display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  min-height: 3.5rem; padding: 0 1.25rem;
+  background: var(--red); color: #fff; font-weight: 600; text-decoration: none;
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.3); /* taste-skill-ignore: barra fija que flota sobre la página */
+  animation: barra-in 400ms var(--ease-out);
+}
+@keyframes barra-in { from { transform: translateY(140%); } to { transform: none; } }
+
+@media (min-width: 64rem) {
+  .pedido { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(2rem, 5vw, 5rem); }
+  .pedido__col { position: sticky; top: 1.5rem; }
+  .pedido__ticket { padding: 2.5rem 2rem 2.75rem; }
+  .pedido__barra { display: none; }
+}
